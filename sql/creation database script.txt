@@ -1,0 +1,50 @@
+-- Database: hardware
+
+-- DROP DATABASE IF EXISTS hardware;
+
+CREATE TABLE developers (
+	id SERIAL PRIMARY KEY,
+	name VARCHAR(100) NOT NULL,
+	description TEXT,
+	UNIQUE(name)
+);
+
+CREATE TABLE categories(
+	id SERIAL PRIMARY KEY,
+	name VARCHAR(100) NOT NULL,
+	UNIQUE(name)
+);
+
+CREATE TABLE roles(
+	id SERIAL PRIMARY KEY,
+	name VARCHAR(100) NOT NULL,
+	UNIQUE(name)
+);
+
+CREATE TABLE components(
+	id SERIAL PRIMARY KEY,
+	name VARCHAR(100) NOT NULL,
+	description TEXT,
+	price NUMERIC NOT NULL,
+	photo VARCHAR(255) NOT NULL,
+	developer_id INT REFERENCES developers(id),
+	category_id INT REFERENCES categories(id),
+	UNIQUE(name)
+);
+
+CREATE TABLE users(
+	id SERIAL PRIMARY KEY,
+	name VARCHAR(100) NOT NULL,
+	surname VARCHAR(100) NOT NULL,
+	login VARCHAR(100) NOT NULL,
+	password TEXT NOT NULL,
+	role_id INT REFERENCES roles(id),
+	UNIQUE(login)
+);
+
+CREATE TABLE orders(
+	id SERIAL PRIMARY KEY,
+	user_id INT REFERENCES users(id),
+	component_id INT REFERENCES components(id),
+	is_confirmed BOOLEAN NOT NULL
+);

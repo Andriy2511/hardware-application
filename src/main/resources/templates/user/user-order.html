@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User's paid orders</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div th:replace="~{header/user-panel}"></div>
+<div class="container mt-5">
+    <h2 class="mb-3">User's paid orders</h2>
+    <div class="pagination">
+        <div class="d-flex flex-column">
+            <div>
+                <form th:action="@{/user/showUserOrders}" method="get">
+                    <input type="number" id="pageSize" name="pageSize" min="1">
+                    <button type="submit" class="btn btn-primary mb-2">Set records per page</button>
+                </form>
+            </div>
+            <div>
+                <a th:href="@{/user/showUserOrders(page=${-1})}" class="btn btn-primary" role="button">Previous Page</a>
+                <a th:href="@{/user/showUserOrders(page=${1})}" class="btn btn-primary" role="button">Next Page</a>
+            </div>
+        </div>
+    </div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Component</th>
+            <th scope="col">Description</th>
+            <th scope="col">Price</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="order : ${orders}">
+            <td>
+                <a th:href="@{/catalog/componentInfo/{id}(id=${order.component.id})}" th:text="${order.component.name}"></a>
+            </td>
+            <td th:text="${order.component.description}"></td>
+            <td th:text="${order.component.price}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <a class="btn btn-secondary" th:href="@{/catalog/showComponentsCatalog}">Show Component Catalog</a>
+</div>
+</body>
+</html>

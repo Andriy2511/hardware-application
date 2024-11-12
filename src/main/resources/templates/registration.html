@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <title>Registration</title>
+    <style>
+        .error-message {
+            color: rgb(211, 15, 15);
+            font-size: 20px;
+            font-weight: bold;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="~{header/user-panel}"></div>
+<div class="background-image"></div>
+<div class="container">
+    <div class="col-md-6 col-md-offset-4">
+        <h1 style="color: rgba(255,255,255,0.8); font-weight: bold;">Register a new user</h1>
+        <form action="#" th:action="@{/register}" th:object="${userDTO}" method="post">
+            <div class="form-group">
+                <label for="name" style="color: rgba(255,255,255,0.8); font-weight: bold;">Name:</label>
+                <input type="text" class="form-control" id="name" th:field="*{name}" required>
+                <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error-message"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="surname" style="color: rgba(255,255,255,0.8); font-weight: bold;">Surname:</label>
+                <input type="text" class="form-control" id="surname" th:field="*{surname}" required>
+                <span th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}" class="error-message"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="login" style="color: rgba(255,255,255,0.8); font-weight: bold;">Login:</label>
+                <input type="text" class="form-control" id="login" th:field="*{login}" required>
+                <span th:if="${#fields.hasErrors('login')}" th:errors="*{login}" class="error-message"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="password" style="color: rgba(255,255,255,0.8); font-weight: bold;">Password:</label>
+                <input type="password" class="form-control" id="password" th:field="*{password}" required>
+                <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="error-message"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Registration</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

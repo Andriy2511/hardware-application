@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Author</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+</head>
+<body>
+<div th:replace="~{header/admin-panel}"></div>
+<div class="container mt-5">
+    <h2 class="mb-4">Add a new component developer</h2>
+    <form th:action="@{/admin/addDeveloper}" method="post" th:object="${developer}">
+        <div class="form-group">
+            <label for="name">Developer name:</label>
+            <input type="text" class="form-control" id="name" name="name" th:field="*{name}">
+            <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger">Please enter a valid name</span>
+        </div>
+
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <input type="text" class="form-control" id="description" name="description" th:field="*{description}">
+            <span th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="text-danger">Please enter a valid description</span>
+        </div>
+
+        <div th:if="${developerExistsError}" class="text-danger">
+            <span th:text="${developerExistsError}"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Add a developer</button>
+    </form>
+</div>
+</body>
+</html>

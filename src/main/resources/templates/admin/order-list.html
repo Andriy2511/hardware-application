@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Orders List</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+</head>
+<body>
+<div th:replace="~{header/admin-panel}"></div>
+<div class="container mt-5">
+    <h2>Orders List</h2>
+        <div class="d-flex flex-column">
+            <div>
+                <form th:action="@{/admin/showOrdersList}" method="get">
+                    <input type="number" id="pageSize" name="pageSize" min="1">
+                    <button type="submit" class="btn btn-primary mb-2">Set records per page</button>
+                </form>
+            </div>
+            <div>
+                <a th:href="@{/admin/showOrdersList(page=${-1})}" class="btn btn-primary" role="button">Previous Page</a>
+                <a th:href="@{/admin/showOrdersList(page=${1})}" class="btn btn-primary" role="button">Next Page</a>
+            </div>
+        </div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Order id</th>
+            <th scope="col">User</th>
+            <th scope="col">Component</th>
+            <th scope="col">Price</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="order : ${orders}">
+            <td th:text="${order.id}"></td>
+            <td><a th:href="@{/admin/userInfo/{id}(id=${order.user.id})}" th:text="${order.user.login}"></a></td>
+            <td><a th:href="@{/catalog/componentInfo/{id}(id=${order.component.id})}" th:text="${order.component.name}"></a></td>
+            <td th:text="${order.component.price}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <a th:href="@{/admin/showOrdersList}" class="btn btn-primary">Orders List</a>
+</div>
+</body>
+</html>

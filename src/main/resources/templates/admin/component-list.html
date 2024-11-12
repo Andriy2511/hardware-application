@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Components List</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+</head>
+<body>
+<div th:replace="~{header/admin-panel}"></div>
+<div class="container mt-5">
+    <h2>Components List</h2>
+    <div class="pagination">
+        <div class="d-flex flex-column">
+            <div>
+                <form th:action="@{/admin/showComponentsList}" method="get">
+                    <input type="number" id="pageSize" name="pageSize" min="1">
+                    <button type="submit" class="btn btn-primary mb-2">Set records per page</button>
+                </form>
+            </div>
+            <div>
+                <a th:href="@{/admin/showComponentsList(page=${-1})}" class="btn btn-primary" role="button">Previous Page</a>
+                <a th:href="@{/admin/showComponentsList(page=${1})}" class="btn btn-primary" role="button">Next Page</a>
+            </div>
+        </div>
+    </div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Price</th>
+            <th scope="col">Developer</th>
+            <th scope="col">Category</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="component : ${components}">
+            <td><a th:href="@{/catalog/componentInfo/{id}(id=${component.id})}" th:text="${component.name}"></a></td>
+            <td th:text="${component.price}"></td>
+            <td><a th:href="@{/catalog/developerInfo/{id}(id=${component.developer.id})}" th:text="${component.developer.name}"></a></td>
+            <td th:text="${component.category.name}"></td>
+            <td>
+                <form th:action="@{/admin/showChangeComponentForm/{id}(id=${component.id})}" method="get" style="display: inline;">
+                    <div class="float-right">
+                        <button type="submit" class="btn btn-primary ml-2">Change component info</button>
+                    </div>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a th:href="@{/admin/showAddComponentForm}" class="btn btn-primary">Add a New Components</a>
+</div>
+</body>
+</html>

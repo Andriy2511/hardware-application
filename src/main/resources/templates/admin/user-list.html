@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Users List</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+</head>
+<body>
+<div th:replace="~{header/admin-panel}"></div>
+<div class="container mt-5">
+    <h2>Users List</h2>
+    <div class="pagination">
+        <div class="d-flex flex-column">
+            <div>
+                <form th:action="@{/admin/showUsersList}" method="get">
+                    <input type="number" id="pageSize" name="pageSize" min="1">
+                    <button type="submit" class="btn btn-primary mb-2">Set records per page</button>
+                </form>
+            </div>
+            <div>
+                <a th:href="@{/admin/showUsersList(page=${-1})}" class="btn btn-primary" role="button">Previous Page</a>
+                <a th:href="@{/admin/showUsersList(page=${1})}" class="btn btn-primary" role="button">Next Page</a>
+            </div>
+        </div>
+    </div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Login</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.name}"></td>
+            <td th:text="${user.surname}"></td>
+            <td><a th:href="@{/admin/userInfo/{id}(id=${user.id})}" th:text="${user.login}"></a></td>
+        </tr>
+        </tbody>
+    </table>
+    <a th:href="@{/admin/showUsersList}" class="btn btn-primary mt-3">Show users list</a>
+</div>
+</body>
+</html>

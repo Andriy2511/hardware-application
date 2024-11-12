@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Developers List</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+    <style>
+        table {
+            width: 50%;
+            border-collapse: collapse;
+            margin: 20px auto;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="~{header/admin-panel}"></div>
+<div class="container mt-5">
+    <h2>Developer List</h2>
+    <div class="pagination">
+        <div class="d-flex flex-column">
+            <div>
+                <form th:action="@{/admin/showDevelopersList}" method="get">
+                    <input type="number" id="pageSize" name="pageSize" min="1">
+                    <button type="submit" class="btn btn-primary mb-2">Set records per page</button>
+                </form>
+            </div>
+            <div>
+                <a th:href="@{/admin/showDevelopersList(page=${-1})}" class="btn btn-primary" role="button">Previous Page</a>
+                <a th:href="@{/admin/showDevelopersList(page=${1})}" class="btn btn-primary" role="button">Next Page</a>
+            </div>
+        </div>
+    </div>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Developers name</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="developer : ${developers}">
+            <td>
+                <a th:href="@{/catalog/developerInfo/{id}(id=${developer.id})}" th:text="${developer.name}"></a>
+                <form th:action="@{/admin/showChangeDeveloperForm/{id}(id=${developer.id})}" method="get" style="display: inline;">
+                    <div class="float-right">
+                        <button type="submit" class="btn btn-primary ml-2">Change developer info</button>
+                    </div>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a th:href="@{/admin/showDevelopersList}" class="btn btn-primary">Show a developers list</a>
+</div>
+</body>
+</html>

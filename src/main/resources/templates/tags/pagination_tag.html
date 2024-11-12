@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div class="pagination">
+    <form th:action="@{${link}}" method="get">
+        <input type="number" id="pageSize" name="pageSize" min="1">
+        <button type="submit" class="btn btn-primary ml-2">Set records per page</button>
+    </form>
+    <br>
+    <a th:href="@{${link}(page=-1)}" class="btn btn-primary" role="button">Previous Page</a>
+    <a th:href="@{${link}(page=1)}" class="btn btn-primary" role="button">Next Page</a>
+</div>
+
+</body>
+</html>

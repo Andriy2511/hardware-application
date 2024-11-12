@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Developer Information</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+</head>
+<body>
+<div th:replace="~{${isAdmin} ? 'header/admin-panel' : 'header/user-panel'}"></div>
+<div class="container mt-5">
+    <h2 class="mb-3">Developer Information</h2>
+
+    <div th:if="${developer}" class="mb-3">
+        <p><strong>Name:</strong> <span th:text="${developer.name}"></span></p>
+        <p><strong>Description:</strong> <span th:text="${developer.description}"></span></p>
+    </div>
+
+    <div th:if="${developer.components.size() > 0}" class="mb-3">
+        <div class="pagination">
+            <div class="d-flex flex-column">
+                <div>
+                    <form th:action="@{/catalog/developerInfo/{id}(id=${developer.id})}" method="get">
+                        <input type="number" id="pageSize" name="pageSize" min="1">
+                        <button type="submit" class="btn btn-primary mb-2">Set records per page</button>
+                    </form>
+                </div>
+                <div>
+                    <a th:href="@{/catalog/developerInfo/{id}(id=${developer.id}, page=-1)}" class="btn btn-primary" role="button">Previous Page</a>
+                    <a th:href="@{/catalog/developerInfo/{id}(id=${developer.id}, page=1)}" class="btn btn-primary" role="button">Next Page</a>
+                </div>
+            </div>
+        </div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Description</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="component : ${components}">
+                <td><a th:href="@{/catalog/componentInfo/{id}(id=${component.id})}" th:text="${component.name}"></a></td>
+                <td th:text="${component.description}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:unless="${developer}" class="mb-3">
+        <p>Developer not found.</p>
+    </div>
+
+</div>
+</body>
+</html>

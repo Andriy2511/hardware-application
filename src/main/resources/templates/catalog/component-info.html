@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Component Information</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+</head>
+<body>
+<div th:replace="~{${isAdmin} ? 'header/admin-panel' : 'header/user-panel'}"></div>
+<div class="container mt-5">
+    <h2>Component Information</h2>
+    <div th:if="${component}" class="mb-4">
+        <p><strong>Title:</strong> <span th:text="${component.name}"></span></p>
+        <p><strong>Description:</strong> <span th:text="${component.description}"></span></p>
+        <p><strong>Price:</strong> <span th:text="${component.price}"></span></p>
+        <p><strong>Developer:</strong> <a th:href="@{/catalog/developerInfo/{id}(id=${component.developer.id})}" th:text="${component.developer.name}"></a>
+        <p><strong>Category:</strong> <span th:text="${component.category.name}"></span></p>
+        <p><strong>Photo:</strong> <img th:src="@{~/componentphoto/{photo}(photo=${component.photo})}" style="max-width: 450px; max-height: 300px;" alt="Component Photo"></p>
+    </div>
+    <div th:unless="${component}">
+        <p>Component not found.</p>
+    </div>
+</div>
+</body>
+</html>

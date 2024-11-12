@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Information</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          crossorigin="anonymous">
+</head>
+<body>
+<div th:replace="~{header/admin-panel}"></div>
+<div class="container mt-5">
+    <h2>User Information</h2>
+    <div th:if="${user}" class="mb-4">
+        <p><strong>Name:</strong> <span th:text="${user.name}"></span></p>
+        <p><strong>Surname:</strong> <span th:text="${user.surname}"></span></p>
+        <p><strong>Login:</strong> <span th:text="${user.login}"></span></p>
+    </div>
+    <div th:if="${user.orders.size() > 0}">
+        <h3>User Orders:</h3>
+        <div class="pagination">
+            <div class="d-flex flex-column">
+                <div>
+                    <form th:action="@{/catalog/userInfo/{id}(id=${user.id})}" method="get">
+                        <input type="number" id="pageSize" name="pageSize" min="1">
+                        <button type="submit" class="btn btn-primary mb-2">Set records per page</button>
+                    </form>
+                </div>
+                <div>
+                    <a th:href="@{/catalog/developerInfo/{id}(id=${user.id}, page=-1)}" class="btn btn-primary" role="button">Previous Page</a>
+                    <a th:href="@{/catalog/developerInfo/{id}(id=${user.id}, page=1)}" class="btn btn-primary" role="button">Next Page</a>
+                </div>
+            </div>
+        </div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Confirmation</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="order : ${orders}">
+                <td th:text="${order.user.name}"></td>
+                <td><a th:href="@{/catalog/componentInfo/{id}(id=${order.component.id})}" th:text="${order.component.name}"></a></td>
+                <td th:text="${order.confirmed}"></td>
+            </tr>
+            </tbody>
+        </table>
+    <a th:href="@{/templates/user/showUserList}" class="btn btn-primary mt-3">Back to User List</a>
+</div>
+</body>
+</html>
