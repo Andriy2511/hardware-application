@@ -52,6 +52,7 @@ public class RegistrationController {
             }
 
             userService.registerUser(getUserFromDTO(userDTO));
+            System.out.println(getUserFromDTO(userDTO));
             return "redirect:login";
         } catch (Exception e){
             log.error("Error while adding to the database: \n{}", e.getMessage());

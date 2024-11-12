@@ -45,12 +45,12 @@ public class LoginController {
     public String loginUser(@ModelAttribute("userDTO") @Valid UserDTO userDTO, BindingResult result) {
         try {
             Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(userDTO.getName(), userDTO.getPassword()));
+                    new UsernamePasswordAuthenticationToken(userDTO.getLogin(), userDTO.getPassword()));
             SecurityContextHolder.getContext().setAuthentication(authentication);
             return getPageByRole(authentication);
         } catch (AuthenticationException e) {
             e.printStackTrace();
-            result.rejectValue("name", "error.invalidCredentials", "Invalid username or password");
+            result.rejectValue("login", "error.invalidCredentials", "Invalid login or password");
             return "login";
         }
     }
